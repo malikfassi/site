@@ -1,0 +1,328 @@
+/* app css stylesheet */
+
+@import "../../../bower_components/font-awesome/scss/font-awesome.scss";
+/* Mixin */
+@mixin center($width: false, $height: false) {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+
+  @if not $width and not $height {
+    transform: translate(-50%, -50%);
+  }
+  @else if $width and $height {
+    width: $width;
+    height: $height;
+    margin: -($width / 2) #{0 0} -($height / 2);
+  }
+  @else if not $height {
+    width: $width;
+    margin-left: -($width / 2);
+    transform: translateY(-50%);
+  }
+  @else {
+    height: $height;
+    margin-top: -($height / 2);
+    transform: translateX(-50%);
+  }
+}
+
+
+@keyframes shake {
+  0% {transform: translateX(0);}
+  12.5% {transform: translateX(-6px) rotateY(-5deg)}
+  37.5% {transform: translateX(5px) rotateY(4deg)}
+  62.5% {transform: translateX(-3px) rotateY(-2deg)}
+  87.5% {transform: translateX(2px) rotateY(1deg)}
+  100% {transform: translateX(0)}
+}
+
+.shake {
+  animation: shake 400ms ease-in-out;
+}
+
+
+body {
+  /*background-color: #E5E5E5;*/
+  font-family: 'Montserrat', sans-serif;
+}
+/*clean input style */
+input {
+  -webkit-appearance:none;
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  border-radius: 0;
+  -moz-border-radius: 0;
+  -webkit-border-radius: 0; 
+}
+header.top-search-bar {
+  border-bottom: 3px solid #61BEB5;
+  background-color: #333333;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 10px;
+  width: 100%;
+  position: fixed;
+  top:0px;
+
+  #dgiLogo {
+    height: 100px;
+    display: inline;
+    float: left;
+    margin-left: 10px;
+  }
+  form {
+    @include center();
+    input {
+      display : inline;
+      float: left;
+    }
+    dropdown {
+      display : inline;
+    }
+  }
+}
+
+input#ifu {
+  width: 300px;
+  height: 40px;
+  border: 0;
+  padding: 0px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+input#submit {
+  width: 80px;
+  background: white;
+  height: 40px;
+  cursor: pointer;
+  font-size: 16px;
+  color: #000;
+  border: 0px solid #0f0;
+  margin: 0px;
+  padding: 0px;
+  border-left: 1px solid #000;
+}
+
+input#submit[disabled] {
+  cursor: not-allowed;
+}
+
+.initial-search-bar {
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  transform: translateY(-50%);
+  #dgiLogo {
+    width: 250px;
+    margin: 0 auto;
+    display: block;
+    margin-bottom: 30px;
+  }
+  .form-wrapper {
+    border-bottom: 0.1em solid black;
+    background-color: #333333;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    width: 100%;
+    height: 61px;
+  }
+  form {
+    height: 40px;
+    width: 650px;
+    margin: 0 auto;
+    input {
+      display : inline;
+      float: left;
+    }
+    dropdown {
+      display : inline;
+    }
+  }
+}
+
+#navigation {
+  height: 100%;
+  width: 200px;
+  position: fixed;
+  background-color: #333333;
+  padding: 30px;
+  margin-top: -12px;
+  img {
+    height:50px;
+    border-radius: 10px;
+    border: 2px #000 solid;
+    padding:5px;
+    display: block;
+    margin-top:30px;
+  }
+}
+
+#lateral-bar {
+  height: 100%;
+  width: 200px;
+  position: fixed;
+  background-color: #333333;
+  padding: 30px 0px;
+  margin-top: -12px;
+  border-right: 3px #61BEB5 solid;
+}
+
+
+#content {
+  margin-top:132px;
+  margin-left: 212px;
+  margin-right:12px;
+  overflow:auto;
+  position: relative;
+}
+
+#mask {
+  background: hsla(0,0%,100%,.5);
+  z-index: 2;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+#popup {
+  position: absolute;
+  z-index: 3;
+  padding: 100px;
+  background-color: #fff;
+  border: 2px solid #61BEB5;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}
+.menu > li {
+  display: inline;
+}
+
+
+.invalid {
+  outline : red 1px solid;
+}
+
+
+.icon {
+  height: 50px;
+}
+
+.icon-wrapper {
+  padding: 10px;
+  border-radius: 50%;
+  /* background-color: #29ABE2; */
+  border: 3px #61BEB5 solid;
+  width: 76px;
+  margin: 0 auto;
+}
+
+.data-wrapper {
+  padding: 10px;
+  color: #fff;
+  span {
+    display: block;
+  }
+  span.data{
+    margin-left: 20px;
+  }
+  .label-data {
+    font-weight: bold;
+    color: #61BEB5;
+  }
+}
+
+#identity {
+  border-bottom: 1px #fff solid;
+  position: relative;
+}
+#name {
+  padding: 10px;
+  color: #fff;
+  width: 180px;
+  margin: 0 auto;
+  display: block;
+  text-align: center;
+}
+
+#profile-content {
+  overflow: scroll;
+  height: 520px;
+  padding: 0 20px;
+}
+.data-element {
+  display:block;
+  margin-top: 10px;
+}
+.centre
+{
+  width: 200px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+.tab-content {
+  margin-top: 10px;
+}
+
+.graph-wrapper {
+  float:left;
+}
+
+.graphs-wrapper {
+  overflow:auto;
+}
+
+.graphs-wrapper.first-line {
+  border-bottom :1px #000 solid;
+}
+
+.graph-wrapper.second-col {
+  border-left : 1px #000 solid;
+}
+
+.focus {
+  outline: #b3d4fc;
+}
+
+
+
+
+.d3-tip {
+  line-height: 1;
+  font-weight: bold;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border-radius: 2px;
+  z-index: 4;
+}
+
+/* Creates a small triangle extender for the tooltip */
+.d3-tip:after {
+  box-sizing: border-box;
+  display: inline;
+  font-size: 10px;
+  width: 100%;
+  line-height: 1;
+  color: rgba(0, 0, 0, 0.8);
+  content: "\25BC";
+  position: absolute;
+  text-align: center;
+}
+
+/* Style northward tooltips differently */
+.d3-tip.n:after {
+  margin: -1px 0 0 0;
+  top: 100%;
+  left: 0;
+}
+
+marker#arrow {
+    fill: #666;
+}
+
+

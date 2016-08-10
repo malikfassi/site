@@ -1,0 +1,94 @@
+  <header ng-class="vm.submitted && vm.valid ? 'top-search-bar' : 'initial-search-bar'" >
+  	<img id="dgiLogo" src="/assets/images/dgiLogo.png" ng-click="vm.reset()">
+  	<div ng-class="!vm.submitted || !vm.valid ? 'form-wrapper' : ''">
+  		<form class="center" name="searchInput" ng-submit="vm.submit()">
+  			<input placeholder="IFU..." id="ifu" ng-class="{'invalid':!vm.ifu && vm.submitted}" type="text" ng-model="vm.ifu" name="ifu" ng-pattern="vm.onlyNumbers" ng-required>
+  			<dropdown ng-class="{'invalid':!vm.selected && vm.submitted}" placeholder="Periode..." list="years" selected="vm.selected" valid-drop-down></dropdown>
+  			<multiselect-dropdown ng-class="{'invalid':!vm.multiselected.length && vm.submitted}" placeholder="Indicateur.."  list="ind" multiselected="vm.multiselected" valid-drop-down></multiselect-dropdown>
+  			<input type="submit" id="submit" ng-disabled="vm.submitted && vm.loading && vm.valid" value="Submit">
+  		</form>
+  	</div>
+  </header>
+  <div id="lateral-bar" ng-init="tab=0" class="tab-content" ng-show="vm.submitted && vm.valid">
+  	<div ng-show="vm.submitted && vm.valid && !vm.loading">
+	  	<div class="data-element" id="identity">
+	  		<div class="icon-wrapper">
+	  			<img ng-src="/assets/images/svg/{{vm.data.typeContribuable}}.svg" class="icon">
+	  		</div>
+	  		<div id="name"  ng-show="vm.data.typeContribuable=='M'">
+	  			<span>{{vm.data.raisonSociale}} {{vm.data.formeJuridique}}</span>
+	  		</div>
+	  		<div id="name"  ng-show="vm.data.typeContribuable!='M'">
+	  			<span>{{vm.data.prenom}} {{vm.data.nom}}</span>
+	  		</div>
+	  	</div>
+	  	<div id="profile-content">
+	  		<div class="data-element">
+				<!--<div class="icon-wrapper">
+					<img src="/static/svg/id-card.svg" class="icon">
+				</div>-->
+				<div class="data-wrapper">
+					<span class="label-data">IFU</span><span class="data"> {{vm.data.ifu}}</span>
+					<span class="label-data" ng-show="vm.data.typeContribuable!='M'">CIN</span><span class="data"> {{vm.data.cin}}</span>
+				</div>
+			</div>
+			<div class="data-element">
+				<!--<div class="icon-wrapper">
+					<img src="/static/svg/house.svg" class="icon">
+				</div>-->
+				<div class="data-wrapper">
+					<div class="content-wrapper">
+						<span class="label-data">Adresse </span><span class="data">  {{vm.data.adresse}}</span>
+						<span class="label-data">Ville </span><span class="data">  {{vm.data.ville}}</span>
+					</div>
+				</div>
+			</div>	
+			<div class="data-element">
+				<!--<div class="icon-wrapper">
+					<img src="/static/svg/house.svg" class="icon">
+				</div>-->
+				<div class="data-wrapper">
+					<div class="content-wrapper">
+						<div ng-show="vm.data.typeContribuable=='M'">
+							<span class="label-data">Date de création</span> <span class="data">{{vm.data.dateCreation}}</span>
+						</div>
+						<div ng-show="vm.data.typeContribuable=='M'">
+							<span class="label-data" ng-show="vm.data.typeContribuable=='M'">Unité de gestion : </span> <span class="data">{{vm.data.uniteDeGestion}}</span>
+						</div>
+						<div ng-show="vm.data.typeContribuable=='M'">
+							<span class="label-data" ng-show="vm.data.typeContribuable=='M'">Activité principale : </span> <span class="data">{{vm.data.activitePrincipale}}</span>
+						</div>
+						<div>
+							<span class="label-data">Annee : </span> <span class="data">{{vm.data.annee}}</span>
+						</div>
+					</div>
+				</div>
+			</div>	
+		</div>
+	</div>
+</div>
+		<!--	<div bar-chart chart-data="data.ca"></div>-->
+<div id="content" ng-if="vm.submitted && vm.valid">
+	<div id="popup" bar-chart chart-data="popupChart" ng-if="vm.popupActive" enableZoom='false' enableNav='false'></div>
+	<div id="mask" ng-if="vm.popupActive" ng-click="vm.togglePopup()"></div>
+	<div class="graphs-wrapper first-line">
+		<div class="graph-wrapper first-col">
+			<!--<img ng-show="vm.loading" src="/assets/images/svg/loading.svg">-->
+			<div bar-chart chart-data="data.ca" title="Source du chiffre d'affaire (CA)"></div>
+		</div>
+		<div class="graph-wrapper second-col">
+			<!--<img ng-show="vm.loading" src="/assets/images/svg/loading.svg">-->
+			<div bar-chart chart-data="data.rs" title="Source du revenu salarial (RS)"></div>
+		</div>
+	</div>
+	<div class="graphs-wrapper second-line">
+		<div class="graph-wrapper first-col">
+			<!--<img ng-show="vm.loading" src="/assets/images/svg/loading.svg">-->
+			<div  bar-chart chart-data="example" title="Situation Patrimoniale"></div>
+		</div>
+		<div class="graph-wrapper second-col">
+			<!--<img ng-show="vm.loading" src="/assets/images/svg/loading.svg">-->
+			<div  bar-chart chart-data="example" title="Douane Exportation"></div>
+		</div>
+	</div>
+</div>
