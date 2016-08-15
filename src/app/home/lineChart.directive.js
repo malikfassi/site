@@ -173,7 +173,7 @@ angular.module('myApp.home')
                     .text(message);
             }
 
-            function updateBars(trans) {
+            function updateLines(trans) {
                 setChartParameters();
                 updateAxis();
                 var state = svg.selectAll("g");
@@ -182,7 +182,7 @@ angular.module('myApp.home')
                         if (focus != d.year && focus)
                             return (0);
                         return (1);
-                    })
+                    });
             }
 
 
@@ -262,7 +262,7 @@ angular.module('myApp.home')
                                 focus = "";
                             else
                                 focus = d;
-                            updateBars();
+                            updateLines();
                             updateLegend();
                         });
                 }
@@ -270,6 +270,15 @@ angular.module('myApp.home')
             drawLineChart();
             scope.$watch("vm." + attrs.chartData, function() {
                 dataToPlot = getDescendantProp(scope.vm, attrs.chartData);
+                if (dataToPlot)
+                {
+                    dataToPlot.forEach(function (d) {
+                        var year = d.year;
+                        d.data.forEach(function (i) {
+                            i.year = year;
+                        });
+                    });
+                }
                 svg.selectAll('*').remove();
                 if (!scope.vm.loading) {
                     drawLineChart();
