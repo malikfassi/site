@@ -4,9 +4,8 @@
 angular.module('myApp.home')
     .factory('dataFactory', ['$http', function($http) {
 
-     var urlBase = 'http://10.10.2.164:8080/indicateur?';
+     var urlBase = 'http://10.10.2.164:8080/ca?';
      var dataFactory = {};
-
 
      dataFactory.getData = function getData() {
          var request = new XMLHttpRequest();

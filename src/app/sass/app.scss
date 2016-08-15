@@ -59,15 +59,15 @@ input {
 header.top-search-bar {
   border-bottom: 3px solid #61BEB5;
   background-color: #333333;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
   padding-left: 10px;
   width: 100%;
   position: fixed;
   top:0px;
 
   #dgiLogo {
-    height: 100px;
+    height: 40px;
     display: inline;
     float: left;
     margin-left: 10px;
@@ -131,7 +131,7 @@ input#submit[disabled] {
   }
   form {
     height: 40px;
-    width: 650px;
+    width: 380px;
     margin: 0 auto;
     input {
       display : inline;
@@ -164,15 +164,14 @@ input#submit[disabled] {
   height: 100%;
   width: 200px;
   position: fixed;
-  background-color: #333333;
+  background-color: #EDEDED;
   padding: 30px 0px;
-  margin-top: -12px;
-  border-right: 3px #61BEB5 solid;
+  top: 43px;
 }
 
 
 #content {
-  margin-top:132px;
+  margin-top:65px;
   margin-left: 212px;
   margin-right:12px;
   overflow:auto;
@@ -207,6 +206,9 @@ input#submit[disabled] {
 }
 
 
+
+
+
 .icon {
   height: 50px;
 }
@@ -222,7 +224,6 @@ input#submit[disabled] {
 
 .data-wrapper {
   padding: 10px;
-  color: #fff;
   span {
     display: block;
   }
@@ -241,7 +242,6 @@ input#submit[disabled] {
 }
 #name {
   padding: 10px;
-  color: #fff;
   width: 180px;
   margin: 0 auto;
   display: block;
@@ -249,7 +249,6 @@ input#submit[disabled] {
 }
 
 #profile-content {
-  overflow: scroll;
   height: 520px;
   padding: 0 20px;
 }
@@ -282,6 +281,12 @@ input#submit[disabled] {
 
 .graph-wrapper.second-col {
   border-left : 1px #000 solid;
+}
+
+.second-line {
+  > div > div {
+    margin-top:10px;
+  }
 }
 
 .focus {
@@ -326,3 +331,23 @@ marker#arrow {
 }
 
 
+
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+path.line { 
+    stroke: steelblue;
+    stroke-width: 2;
+    fill: none;
+}
+.bar {
+  fill: steelblue;
+}
+
+.x.axis path {
+  display: none;
+}

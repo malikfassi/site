@@ -46,7 +46,7 @@ angular.module('myApp.home')
 				}
 			});
 			$rootScope.$on('$destroy', clickCallback);
-			scope.$watch("vm.selected", function(value) {
+			scope.$watch("vm.selected", function() {
 				scope.isPlaceholder = !scope.vm.selected;
 				scope.display = scope.vm.selected.toString();
 			});
