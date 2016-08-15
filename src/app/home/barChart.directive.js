@@ -17,7 +17,7 @@ angular.module('myApp.home')
             var rawSvg = elem.find("svg")[0];
             var svg = d3.select(rawSvg);
             var legend;
-            var width = ($window.innerWidth - 240) / 2; //200 size of lateral bar;
+            var width = ($window.innerWidth - 245) / 2; //200 size of lateral bar;
             var height = ($window.innerHeight - 83) / 2; //121 size of header bar;
             var padding = {
                 'vertical': 50,
@@ -206,7 +206,7 @@ angular.module('myApp.home')
 
             function resize() {
                 // need to update all the svg chart properties
-                width = ($window.innerWidth - 240) / 2; //200 size of lateral bar;
+                width = ($window.innerWidth - 245) / 2; //200 size of lateral bar;
                 height = ($window.innerHeight - 83) / 2; //121 size of header bar;
                 svg.attr("width", width) //defini le svg
                     .attr("height", height);
