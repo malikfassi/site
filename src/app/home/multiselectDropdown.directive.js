@@ -47,7 +47,6 @@ angular.module('myApp.home')
 
 			scope.toggle = function() {
 				scope.listVisible = !scope.listVisible;
-				console.log("toggled");
 			};
 
 			clickCallback = $rootScope.$on("documentClicked", function(inner, target) {

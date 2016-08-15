@@ -11,13 +11,11 @@ angular.module('myApp.home')
         controllerAs: "vm",
         link: function(scope, elem, attrs) {
             var dataToPlot = getDescendantProp(scope.vm, attrs.chartData);
-            console.log(dataToPlot);
             //var pathClass = "path";
             var xAxis, yAxis, x0, y0;
             var d3 = $window.d3;
             var rawSvg = elem.find("svg")[0];
             var svg = d3.select(rawSvg);
-            var lastx1;
             var legend;
             var width = ($window.innerWidth - 240) / 2; //200 size of lateral bar;
             var height = ($window.innerHeight - 83) / 2; //121 size of header bar;
@@ -29,8 +27,8 @@ angular.module('myApp.home')
                 'left': 50,
                 'right': 30
             };
-            var data, years, x0, x1, y;
-            var currentGroup, valueline;
+            var years;
+            var valueline;
             // var colorChart = ["#E57E25", "#F29C1F", "#14A085", "#71C285", "#3498db"];
             var color = d3.scale.ordinal()
                 .range(["#E57E25", "#F29C1F", "#14A085", "#71C285", "#3498db", "#d0743c", "#ff8c00"]);
@@ -38,7 +36,6 @@ angular.module('myApp.home')
                 .attr('class', 'd3-tip')
                 .offset([-10, 0])
                 .html(function(d) {
-                    console.log(d);
                     return "<strong>" + d.x + "(" + d.year + "):</strong> <span style='color:red'>" + d.y + "</span>";
                 });
             var focus = '';
@@ -65,40 +62,6 @@ angular.module('myApp.home')
                 var arr = desc.split(".");
                 while (arr.length && (obj = obj[arr.shift()]));
                 return obj;
-            };
-
-            function objPropInArray(arr, prop) {
-                for (var i = 0; i < arr.length; i++) {
-                    if (arr[i]['name'] == prop)
-                        return i;
-                }
-                return -1;
-            }
-
-            function factorizeData() {
-
-                var output = [];
-                var index;
-                dataToPlot.forEach(function(elem) {
-                    elem.data.forEach(function(data) {
-                        index = objPropInArray(output, data.x);
-                        if (index == -1)
-                            output.push({
-                                'name': data.x,
-                                data: []
-                            });
-                        output.forEach(function(finalData) {
-                            if (finalData.name == data.x)
-                                finalData.data.push({
-                                    'year': elem.year,
-                                    'value': data.y,
-                                    'name': data.x
-                                });
-                        });
-                    });
-
-                });
-                return output;
             }
 
             function setChartParameters() {
@@ -146,12 +109,6 @@ angular.module('myApp.home')
                     }).interpolate("linear");
             }
 
-
-            function selectColor(i) {
-                return d3.rgb(colorChart[i]); //Choisi la couleur de la barre selon la list colorChart
-            }
-
-
             function updateLegend() {
                 legend.selectAll("rect")
                     .attr("stroke", function(d) {
@@ -178,7 +135,7 @@ angular.module('myApp.home')
                     .attr("height", height);
                 svg.selectAll('*').remove();
 
-                drawBarChart(0);
+                drawLineChart(0);
             }
 
             function updateAxis() {
@@ -197,25 +154,6 @@ angular.module('myApp.home')
                     .style("text-anchor", "end")
                     .text("DH");
             }
-
-            function updateLegend() {
-                legend.selectAll("rect")
-                    .attr("stroke", function(d) {
-                        if (focus == d)
-                            return ("red");
-                        return ("none");
-                    }).attr("opacity", function(d) {
-                        if (focus == d)
-                            return 1
-                        return .4
-                    });
-                legend.selectAll("text").attr("opacity", function(d) {
-                    if (focus == d)
-                        return 1
-                    return .4
-                });
-            }
-
             function displayImage(imgPath, message) {
                 svg.append('image')
                     .attr('xlink:href', imgPath)
@@ -233,7 +171,7 @@ angular.module('myApp.home')
                     .attr("text-anchor", "middle") // this makes it easy to centre the text as the transform is applied to the anchor
                     .attr("transform", "translate(" + (width / 2) + "," + (height + padding.bottom) + ")") // centre below axis
                     .text(message);
-            };
+            }
 
             function updateBars(trans) {
                 setChartParameters();
@@ -249,7 +187,7 @@ angular.module('myApp.home')
 
 
 
-            function drawBarChart(trans) {
+            function drawLineChart() {
                 if (!dataToPlot) {
                     displayImage("/assets/images/svg/graphic.svg", "No data available")
                 } else {
@@ -270,34 +208,29 @@ angular.module('myApp.home')
                     year.append("path")
                         .attr("class", "line")
                         .attr("d", function(d) {
-                            console.log(d);
                             return valueline(d.data)
                         })
                         .style("stroke", function(d) {
-                            console.log(d);
                             return color(d.year);
                         });
 
-                    console.log(dataToPlot[0]);
                     svg.call(tip); //Place le tip
 
                     // Add the scatterplot
-                    console.log(year);
                     year.selectAll("g").data(function(d) {
                             return d.data;
                         }).enter()
                         .append("circle")
                         .attr("r", 3.5)
                         .attr("cx", function(d) {
-                            console.log(d)
                             return x0(d.x);
                         })
                         .attr("cy", function(d) {
                             return y0(d.y);
-                        }).on('mouseover', function(d, i) { //Comportement du tip
+                        }).on('mouseover', function(d) { //Comportement du tip
                             tip.show(d);
                         })
-                        .on('mouseout', function(d) { //Comportement du tip
+                        .on('mouseout', function() { //Comportement du tip
                             tip.hide();
                         });
 
@@ -334,21 +267,21 @@ angular.module('myApp.home')
                         });
                 }
             }
-            drawBarChart();
-            scope.$watch("vm." + attrs.chartData, function(value) {
+            drawLineChart();
+            scope.$watch("vm." + attrs.chartData, function() {
                 dataToPlot = getDescendantProp(scope.vm, attrs.chartData);
                 svg.selectAll('*').remove();
                 if (!scope.vm.loading) {
-                    drawBarChart();
+                    drawLineChart();
                 } else {
                     displayImage("/assets/images/svg/loading.svg", "Please wait ...");
                 }
             });
 
-            if (window.addEventListener) { // most non-IE browsers and IE9
-                window.addEventListener("resize", resize, false);
-            } else if (window.attachEvent) { // Internet Explorer 5 or above
-                window.attachEvent("onresize", resize);
+            if ($window.addEventListener) { // most non-IE browsers and IE9
+                $window.addEventListener("resize", resize, false);
+            } else if ($window.attachEvent) { // Internet Explorer 5 or above
+                $window.attachEvent("onresize", resize);
             }
         }
     }

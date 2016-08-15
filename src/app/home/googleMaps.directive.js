@@ -4,30 +4,22 @@
 
 angular.module('myApp.home')
 
-.directive("googleMaps", ["$window", function($window) {
+.directive("googleMaps", ["$window", "$document", function($window, $document) {
     return {
         restrict: "E",
         controllerAs: "vm",
         template: "<div id='map'></div>",
         link: function(scope, elem, attrs) {
             var location = getDescendantProp(scope.vm, attrs.loc);
-            console.log(location);
             //var pathClass = "path";
-            var xAxis, yAxis;
-            var d3 = $window.d3;
-            var rawSvg = elem.find("svg")[0];
-            var svg = d3.select(rawSvg);
-            var legend;
-            var width = ($window.innerWidth - 240) / 2; //200 size of lateral bar;
-            var height = ($window.innerHeight - 83) / 2; //121 size of header bar;
-            var padding = {
+            /*var padding = {
                 'vertical': 50,
                 'horizontal': 50,
                 'top': 100,
                 'bottom': 50,
                 'left': 50,
                 'right': 30
-            };
+            };*/
 
             function getDescendantProp(obj, desc) {
                 /*
@@ -44,9 +36,10 @@ angular.module('myApp.home')
                 var arr = desc.split(".");
                 while (arr.length && (obj = obj[arr.shift()]));
                 return obj;
-            };
-
+            }
+/*
             function displayImage(imgPath, message) {
+                
                 svg.append('image')
                     .attr('xlink:href', imgPath)
                     .attr('class', 'pico')
@@ -63,7 +56,7 @@ angular.module('myApp.home')
                     .attr("text-anchor", "middle") // this makes it easy to centre the text as the transform is applied to the anchor
                     .attr("transform", "translate(" + (width / 2) + "," + (height + padding.bottom) + ")") // centre below axis
                     .text(message);
-            };
+            };*/
 
             function initMap() {
                 var geocoder;
@@ -79,7 +72,7 @@ angular.module('myApp.home')
                     navigationControl: false,
                     mapTypeControl: false,
                     scaleControl: false,
-                    draggable: false,
+                    draggable: false
                 };
 
                 function resizeMap() {
@@ -87,18 +80,17 @@ angular.module('myApp.home')
                     var width = ($window.innerWidth - 240) / 2; //200 size of lateral bar;
                     var height = ($window.innerHeight - 83) / 2; //121 size of header bar;
 
-                    $("#map").width(width);
-                    $("#map").height(height);
-                    console.log()
+                    $document.getElementById('map').width(width);
+                    $document.getElementById('map').height(height);
                 }
                 resizeMap()
-                map = new google.maps.Map(document.getElementById('map'), mapOptions);
+                map = new google.maps.Map($document.getElementById('map'), mapOptions);
                 geocoder.geocode({
                     'address': location
                 }, function(results, status) {
                     if (status == 'OK') {
                         map.setCenter(results[0].geometry.location);
-                        var marker = new google.maps.Marker({
+                        new google.maps.Marker({
                             map: map,
                             position: results[0].geometry.location
                         });
@@ -117,15 +109,11 @@ angular.module('myApp.home')
 
                 });
             }
-            scope.$watch("vm." + attrs.loc, function(value) {
-                console.log(location);
+            scope.$watch("vm." + attrs.loc, function() {
                 location = getDescendantProp(scope.vm, attrs.loc);
-                console.log("data changed");
                 if (!scope.vm.loading && location) {
                     initMap();
-                } else {
-                    displayImage("/assets/images/svg/loading.svg", "Please wait ...");
-                }
+                } 
             });
         }
     }

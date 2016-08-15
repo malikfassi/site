@@ -6,7 +6,7 @@
 
 angular.module('myApp.home')
 
-.controller('HOMEController', ['$scope', '$location','$route', 'dataFactory', '$window', function($scope, $location, $route, dataFactory, $window) {
+.controller('HOMEController', ['$scope', '$location','$route', 'dataFactory', function($scope, $location, $route, dataFactory) {
 	var vm = this;
 	var range = function range(start, end) {
 		var foo = [];
@@ -23,25 +23,19 @@ angular.module('myApp.home')
 	vm.onlyNumbers = /^\d+$/;
 	vm.popupActive = false;
 	vm.location = "";
-	var sucessMap = function (data)
-	{
-		console.log(data);
-	}
 
 	var getDataSuccess = function(data){
 		//Handle data on Success
-		console.log(data);
 		vm.loading = false;
 		vm.valid = true;
 		vm.data = data.data;
 		formatData();
 		vm.location = vm.data[0].ville;
-	  }
+	}
 	//	dataFactory.getMap(vm.data[0].ville).then(sucessMap, sucessMap);
 
-	var getDataError = function(data){
+	var getDataError = function(){
 		//Handle data on fail
-		console.log(data);
 		vm.loading = false;
 	}
 	var formatCa = function(data) {
@@ -74,43 +68,43 @@ angular.module('myApp.home')
 	vm.example = {
 					'year': 2016,
 					'data' : [  //Example pour  les indicateurs manquant (X/Y)
-							    {'x': 'brr', 'y': 48000},
-							    {'x': 'ded', 'y': 60000},
-							    {'x': 'liasse', 'y': 10000},
-							    {'x': 'tva', 'y': 24000},
-							   	{'x': 'drf', 'y': 36000}
-			    			  ]
+								{'x': 'brr', 'y': 48000},
+								{'x': 'ded', 'y': 60000},
+								{'x': 'liasse', 'y': 10000},
+								{'x': 'tva', 'y': 24000},
+								{'x': 'drf', 'y': 36000}
+							]
 				}
 
 	vm.example2 = {
 					'year': 2015,
 					'data' : [  //Example pour  les indicateurs manquant (X/Y)
-							    {'x': 'brr', 'y': 54000},
-							    {'x': 'ded', 'y': 12000},
-							    {'x': 'liasse', 'y': 46000},
-							    {'x': 'tva', 'y': 31000},
-							   	{'x': 'drf', 'y': 73000}
-			    			  ]
+								{'x': 'brr', 'y': 54000},
+								{'x': 'ded', 'y': 12000},
+								{'x': 'liasse', 'y': 46000},
+								{'x': 'tva', 'y': 31000},
+								{'x': 'drf', 'y': 73000}
+							]
 				}
 	vm.example3 = {
 					'year': 2014,
 					'data' : [  //Example pour  les indicateurs manquant (X/Y)
-							    {'x': 'brr', 'y': 154000},
-							    {'x': 'ded', 'y': 122000},
-							    {'x': 'liasse', 'y': 436000},
-							    {'x': 'tva', 'y': 431000},
-							   	{'x': 'drf', 'y': 573000}
-			    			  ]
+								{'x': 'brr', 'y': 154000},
+								{'x': 'ded', 'y': 122000},
+								{'x': 'liasse', 'y': 436000},
+								{'x': 'tva', 'y': 431000},
+								{'x': 'drf', 'y': 573000}
+							]
 				}
 	vm.example4 = {
 					'year': 2013,
 					'data' : [  //Example pour  les indicateurs manquant (X/Y)
-							    {'x': 'brr', 'y': 254000},
-							    {'x': 'ded', 'y': 212000},
-							    {'x': 'liasse', 'y': 246000},
-							    {'x': 'tva', 'y': 231000},
-							   	{'x': 'drf', 'y': 273000}
-			    			  ]
+								{'x': 'brr', 'y': 254000},
+								{'x': 'ded', 'y': 212000},
+								{'x': 'liasse', 'y': 246000},
+								{'x': 'tva', 'y': 231000},
+								{'x': 'drf', 'y': 273000}
+							]
 				}
 
 	vm.allExample = [vm.example, vm.example2, vm.example3, vm.example4];
@@ -118,13 +112,12 @@ angular.module('myApp.home')
 	vm.submit = function() {
 		//Handle submit
 		var data ={};
-		var resp;
 		if (vm.ifu) {
 			//Si tout les champs sont remplis
 			vm.valid = true;
 			data.id = vm.ifu;
 			vm.loading = true;
-			resp = dataFactory.getDataIFU(data).then(getDataSuccess, getDataError); //send request 
+			dataFactory.getDataIFU(data).then(getDataSuccess, getDataError); //send request 
 		}
 		vm.submitted = true;
 	}
