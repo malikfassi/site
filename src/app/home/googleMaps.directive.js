@@ -80,11 +80,11 @@ angular.module('myApp.home')
                     var width = ($window.innerWidth - 240) / 2; //200 size of lateral bar;
                     var height = ($window.innerHeight - 83) / 2; //121 size of header bar;
 
-                    $document.getElementById('map').width(width);
-                    $document.getElementById('map').height(height);
+                    angular.element(elem[0].firstChild).width(width);
+                    angular.element(elem[0].firstChild).height(height);
                 }
-                resizeMap()
-                map = new google.maps.Map($document.getElementById('map'), mapOptions);
+                resizeMap();
+                map = new google.maps.Map(angular.element(elem[0].firstChild), mapOptions);
                 geocoder.geocode({
                     'address': location
                 }, function(results, status) {
